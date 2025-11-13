@@ -24,6 +24,6 @@ In order to have the maximum amount of fun time with this game, follow these ste
 
 1. Make sure you have Python downloaded on the computer (no duh)
 2. Open a terminal/command prompt and install the required package:
-   pip install pillow term-image
+   pip install pillow image library
 3. Ensure that your terminal window is open to full screen for the best quality of game
 4. Run and have fun 🥳
