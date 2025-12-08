@@ -4,9 +4,53 @@ import random
 from PIL import Image
 from term_image.image import AutoImage
 import io
+import os
 
 # global dictionary bc i'm cooler than you guys
 player_data = {}
+
+# the functions that chatgpt told me to add or else this wouldn't work
+SCORE_FILE = "highscore.txt"
+DELIMITER = "|"
+
+# high score thingy because sure why not
+def scores():
+    score = {}
+
+    if not os.path.exists(SCORE_FILE):
+        return score
+    
+    with open(SCORE_FILE, "r") as file:
+        for line in file:
+            line = line.strip()
+            if not line:
+                continue
+            
+            name, win, loss = line.split(DELIMITER)
+            score[name] = {"win": int(win), "loss": int(loss)}
+    return score
+
+def save(name, win, loss):
+    score = scores()
+
+    if name not in score or win > score[name]["win"]:
+        score[name] = {"win": win, "loss": loss}
+
+    with open("highscore.txt", "w") as file:
+        for player, record in score.items():
+            file.write(f"{player}{DELIMITER}{record['win']}{DELIMITER}{record['loss']}\n")
+
+def show():
+    score = scores()
+
+    if not score:
+        print("\nNo high score is available yet :)")
+
+    print()
+    sort_score = sorted(score.items(), key = lambda x: x[1]["win"], reverse=True)
+
+    for name, record in sort_score:
+        print(f"{name}: {record['win']} wins, {record['loss']} loss")
 
 # Get the player's name in order to keep everything orderly and allow the global dictionary to keep track of wins and losses
 def player_info():
@@ -62,6 +106,7 @@ def import_image(file_path):
 
 # Run everything so that it works -- run each function and print out the specific responses using each functions
 def main():
+    print("----*** Welcome to Rock-Paper-Scissors! ***----")
     name = player_info()
 
     while True:
@@ -77,6 +122,7 @@ def main():
             # Allows the player to keep track of scoring
             print(f"Wins: {player_data[name]['wins']} || Losses: {player_data[name]['losses']}")
         
+        print("----*** Results ***----")
         # Decide who wins in at the end of the game
         if player_data[name]["wins"] > player_data[name]["losses"]:
             print("Congratulations! You win ✨")
@@ -84,6 +130,12 @@ def main():
             print("Sucks to suck, buckaroo... you lose 🥸")
         elif player_data[name]["wins"] == player_data[name]["losses"]:
             print("Gosh darn, looks like there's a tie...")
+        
+        save(name, player_data[name]["wins"], player_data[name]["losses"])
+
+        print("----*** High Scores ***----")
+        show()
+        print()
 
         # Making my own class in case someone doesn't want to continue playing this amazing game
         class HeHeHaHa(Exception):
