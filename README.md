@@ -27,3 +27,6 @@ In order to have the maximum amount of fun time with this game, follow these ste
    pip install pillow image library
 3. Ensure that your terminal window is open to full screen for the best quality of game
 4. Run and have fun 🥳
+
+<img width="741" height="683" alt="Screenshot 2026-04-06 172320" src="https://github.com/user-attachments/assets/eb013378-186c-4fa7-8344-9d9765952d69" />
+
